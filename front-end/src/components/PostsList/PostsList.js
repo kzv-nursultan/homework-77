@@ -4,12 +4,27 @@ import React from 'react';
 const useStyles = makeStyles({
     list:{
         border:'1px solid black',
-        backgroundColor:"purple",
-        marginTop:'5px'
+        backgroundColor:"pink",
+        marginTop:'5px',
+        padding:'10px'
+    },
+    postHeader:{
+        textAlign:'left'
     },
     picBlock: {
-        height:'100px',
-        width:'150px'
+        height:'140px',
+        width:'250px',
+        backgroundSize:'100% 100%',
+        backgroundRepeat:'no-repeat',
+        margin:'3px auto'
+    },
+    textBlock: {
+        margin:'10px 0',
+        borderBottom:'1px solid black'
+    },
+    textBody: {
+        border: '1px solid blue',
+        padding:'5px 10px'
     }
 })
 
@@ -22,24 +37,22 @@ const PostsList = props => {
             <Grid container xl={10} 
             className={classes.list}>
                 <Grid item container direction="column">
-                    <Grid item container direction="column">
-                        <Typography variant="h4">
+                    <Grid item container direction="column" className={classes.postHeader}>
+                        <Typography variant="h4" className={classes.textBlock}>
                             Author: {props.author}
                         </Typography>
                         <Typography variant="h5">
                             Date: {props.date}
                         </Typography>
                     </Grid>
-                    <Grid>
+                    <Grid item className={classes.textBody}>
                         <Grid item className={classes.picBlock} 
                         style={{
                             display: props.image==='[object Object]' ? 'none' : 'block',
-                            backgroundImage:'url('+(url) + ')',
-                            backgroundSize:'100% 100%',
-                            backgroundRepeat:'no-repeat'
+                            backgroundImage:'url('+(url) + ')'
                         }}>
                         </Grid>
-                        <Typography variant="h5">
+                        <Typography variant="h5" className={classes.textBlock}>
                             Message: {props.message}
                         </Typography>
                     </Grid>

@@ -11,7 +11,9 @@ const useStyles = makeStyles({
      width:'100%',
  },
  postsBlock: {
-     marginBottom:'40px'
+     margin:'10px auto 40px',
+     maxWidth:'95%',
+     textAlign:'center'   
  }
 });
 
