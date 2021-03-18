@@ -28,13 +28,16 @@ router.post('/', upload.single('image'), (req,res)=>{
 
     if (!item.message) {
         res.status(400).send('Something went wrong');
-    } else if(req.file) {
-        console.log('wtf?');
+    };
+     
+    if(req.file) {
         item.image = req.file.filename;
-    } else if(!item.author) {   
-        item.author = "Anonymous";
     };
     
+    if(!item.author && item.author==="") {   
+        item.author = "Anonymous";
+    };
+
     fileDb.addItem(item);
     res.send(item);
 });

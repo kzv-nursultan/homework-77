@@ -16,7 +16,8 @@ const AlertDialog = props => {
         <DialogTitle id="alert-dialog-title">{"Error"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-           Message input field is required. Please recheck your inputs.
+           Message input field is required. 
+           Please recheck your inputs or check your internet connection.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

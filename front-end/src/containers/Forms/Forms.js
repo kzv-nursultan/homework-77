@@ -74,6 +74,11 @@ const Forms = () => {
         } catch {
             setError(true);
         };
+        setMessage({
+            author:'',
+            message:'',
+            image:{name:'Image'}
+        })
     };
 
     const closeAlertDialog = () => {
@@ -90,6 +95,7 @@ const Forms = () => {
             <AlertDialog error={error} handleClose={closeAlertDialog}/>
             <Grid item>
                 <TextField 
+                value={message.author}
                 name='author'
                 label='Author' 
                 variant='outlined'
@@ -97,6 +103,7 @@ const Forms = () => {
             </Grid>
             <Grid item>
                 <TextField 
+                value={message.message}
                 name='message'
                 label='Message' 
                 variant='outlined'
