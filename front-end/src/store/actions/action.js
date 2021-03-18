@@ -8,6 +8,8 @@ export const GET_DATA_REQUEST = "GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "GET_DATA_SUCCESS";
 export const GET_DATA_FAILURE = "GET_DATA_FAILURE";
 
+export const SET_ERROR = "SET_ERROR";
+
 export const postDataRequest = () => (
     {type: POST_DATA_REQUEST}
 );
@@ -28,11 +30,15 @@ export const getDataFailure = () => (
     {type:GET_DATA_FAILURE}
 );
 
+export const setError = () => (
+    {type:SET_ERROR}
+);
+
 export const postData = (item) => {
     return async dispatch => {
         try {
             dispatch(postDataRequest());
-            await axiosPosts('/posts', item);
+            await axiosPosts.post('/posts', item);
             dispatch(postDataSuccess());
         } catch (e) {
             dispatch(postDataFailure(e));
@@ -45,10 +51,15 @@ export const getData = () => {
         try {
             dispatch(getDataRequest());
             const response = await axiosPosts.get('/posts');
-            dispatch(getDataSuccess(respose.data));
+            dispatch(getDataSuccess(response.data));
         } catch (e) {
             dispatch(getDataFailure(e));
         };
     };
 };
 
+export const errorHandler = () => {
+    return dispatch => {
+        dispatch(setError());
+    };
+};

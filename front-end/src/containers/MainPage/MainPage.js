@@ -1,30 +1,50 @@
-import React, {useState} from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Forms from '../Forms/Forms';
-import axiosPosts from '../../axiosPosts';
+import { useDispatch, useSelector } from 'react-redux';
+import { getData } from '../../store/actions/action';
+import PostsList from '../../components/PostsList/PostsList';
 
 const useStyles = makeStyles({
- fromBlock:{
-     position:'fixed',
-     zIndex: '500'
+ formBlock:{
+     width:'100%',
+ },
+ postsBlock: {
+     marginBottom:'40px'
  }
 });
 
 const MainPage = () => {
     const classes = useStyles();
-    const [posts, setPosts] = useState([]);
+    const dispatch = useDispatch();
 
-    const getRequest = async () => {
-        const response = await axiosPosts.get('/posts');
-        console.log(response.data);
-    };
+    const posts = useSelector(state=>state.message.value);
+
+    useEffect(()=>{
+        dispatch(getData());
+    },[dispatch]);
+
+    const list = (
+        posts.map(element => ( 
+            <PostsList 
+            key={element.id}
+            author={element.author}
+            date={element.date}
+            message={element.message}
+            image={element.image}
+            />
+        ))
+    );
 
     return (
-        <Grid container xl>
+        <Grid container xl direction='column'> 
+            <Grid item className={classes.postsBlock}>
+                {list}
+            </Grid> 
             <Grid item className={classes.formBlock}>
                 <Forms/>
-            </Grid>        
+            </Grid>      
         </Grid>
     );
 };

@@ -18,7 +18,7 @@ function App() {
 
   return (
     <Grid container justify="center" className={classes.main}>
-      <Grid item className={classes.gridItem}>
+      <Grid item>
         <MainPage/>
       </Grid>
     </Grid>

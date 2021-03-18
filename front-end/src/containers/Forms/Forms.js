@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import axios from '../../axiosPosts';
 import AlertDialog from '../../components/UI/Dialog/Dialog';
+import { errorHandler, getData, postData } from '../../store/actions/action'
 
 const useStyles = makeStyles({
     formPage:{
@@ -14,14 +15,19 @@ const useStyles = makeStyles({
     hiddenInput:{
         display: 'none'
     },
+    authorInput: {
+        marginBottom:'10px'
+    },
     btn:{
-        margin:'0 2px'
+        margin:'0 2px',
+        width:'20%'
     }
 });
 
 const Forms = () => {
     const classes = useStyles();
     const inputRef = useRef();
+    const dispatch = useDispatch();
 
     const [message,setMessage] = useState({
         author:'',
@@ -29,7 +35,7 @@ const Forms = () => {
         image:{name:'Image'} 
     });
 
-    const [error, setError] = useState(false);
+    const error = useSelector(state=>state.message.error);
 
     const inputChangeHandler = e => {
         const name = e.target.name;
@@ -68,12 +74,9 @@ const Forms = () => {
         Object.keys(message).forEach(key=>{
             formData.append(key, message[key]);
         });
+        await dispatch(postData(formData));
+        await dispatch(getData());
 
-        try {
-            await axios.post('/posts', formData);
-        } catch {
-            setError(true);
-        };
         setMessage({
             author:'',
             message:'',
@@ -82,35 +85,26 @@ const Forms = () => {
     };
 
     const closeAlertDialog = () => {
-        setError(false);
+       dispatch(errorHandler());
     };
 
     return (
-        <Grid container 
-        direction='row' 
-        spacing={2} 
+        <Grid container
         className={classes.formPage} 
+        direction='row' 
+        spacing={2}  
         justify='center' 
         alignItems='center'>
             <AlertDialog error={error} handleClose={closeAlertDialog}/>
-            <Grid item>
+           
+            <Grid item container direction='column'>
                 <TextField 
+                className={classes.authorInput}
                 value={message.author}
                 name='author'
                 label='Author' 
                 variant='outlined'
                 onChange={inputChangeHandler}/>
-            </Grid>
-            <Grid item>
-                <TextField 
-                value={message.message}
-                name='message'
-                label='Message' 
-                variant='outlined'
-                required
-                onChange={inputChangeHandler}/>
-            </Grid>
-            <Grid item className={classes.browse}>
 
                 <input 
                 type='file'
@@ -123,16 +117,24 @@ const Forms = () => {
                 disabled 
                 value={message.image.name}
                 InputLabelProps={{ shrink: true }}
-                variant='outlined'
+                variant='filled'
                 label='Image Name'
                 onClick={inputClick}/>
+
             </Grid>
-            <Button variant='outlined' 
-            color='secondary' 
-            className={classes.btn}
-            onClick={inputClick}>
-                    Browse
-                </Button>
+
+            <Grid item container direction='column'>
+                <TextField 
+                value={message.message}
+                multiline
+                rows={4}
+                name='message'
+                label='Message' 
+                variant='outlined'
+                required
+                onChange={inputChangeHandler}/>
+            </Grid>
+
             <Button variant='contained' 
             color='primary' 
             className={classes.btn}

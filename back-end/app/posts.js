@@ -26,20 +26,26 @@ router.get('/',(req,res)=>{
 router.post('/', upload.single('image'), (req,res)=>{
     const item = req.body;
 
+
+
     if (!item.message) {
         res.status(400).send('Something went wrong');
+    } else if (!item.author && item.author==="") {
+        item.author = "Anonymous";
+        fileDb.addItem(item);
+        res.send(item);
+    } else {
+        fileDb.addItem(item);
+        res.send(item);
     };
      
     if(req.file) {
+        console.log('here',req.file);
         item.image = req.file.filename;
-    };
-    
-    if(!item.author && item.author==="") {   
-        item.author = "Anonymous";
+        fileDb.addItem(item);
+        res.send(item);
     };
 
-    fileDb.addItem(item);
-    res.send(item);
 });
 
 module.exports = router;
