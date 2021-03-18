@@ -53,7 +53,7 @@ const PostsList = props => {
                             backgroundImage:'url('+(url) + ')'
                         }}>
                         </Grid>
-                        <Typography variant="h5" className={classes.textBlock}>
+                        <Typography variant="h4" className={classes.textBlock}>
                             Message: {props.message}
                         </Typography>
                     </Grid>

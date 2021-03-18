@@ -9,6 +9,7 @@ import PostsList from '../../components/PostsList/PostsList';
 const useStyles = makeStyles({
  formBlock:{
      width:'100%',
+     marginBottom:'20px'
  },
  postsBlock: {
      margin:'10px 0 40px',
