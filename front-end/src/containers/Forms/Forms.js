@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import axios from '../../axiosPosts';
+import AlertDialog from '../../components/UI/Dialog/Dialog';
 
 const useStyles = makeStyles({
     formPage:{
@@ -24,8 +26,10 @@ const Forms = () => {
     const [message,setMessage] = useState({
         author:'',
         message:'',
-        image:'' 
+        image:{name:'Image'} 
     });
+
+    const [error, setError] = useState(false);
 
     const inputChangeHandler = e => {
         const name = e.target.name;
@@ -40,7 +44,7 @@ const Forms = () => {
     const fileChangeHandler = e => {
         if(e.target.files[0].name){
             const name = e.target.name;
-            const file = e.target.files[0].name;
+            const file = e.target.files[0];
     
             setMessage(prevState=>({
                 ...prevState,
@@ -49,7 +53,7 @@ const Forms = () => {
         } else {
             setMessage(prevState=>({
                 ...prevState,
-                image:''
+                image:{name:'Image'}
             }));
         };
     }; 
@@ -58,13 +62,22 @@ const Forms = () => {
         inputRef.current.click();
     };
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
         const formData = new FormData();
 
         Object.keys(message).forEach(key=>{
             formData.append(key, message[key]);
         });
-       console.log(formData);
+
+        try {
+            await axios.post('/posts', formData);
+        } catch {
+            setError(true);
+        };
+    };
+
+    const closeAlertDialog = () => {
+        setError(false);
     };
 
     return (
@@ -74,6 +87,7 @@ const Forms = () => {
         className={classes.formPage} 
         justify='center' 
         alignItems='center'>
+            <AlertDialog error={error} handleClose={closeAlertDialog}/>
             <Grid item>
                 <TextField 
                 name='author'
@@ -86,6 +100,7 @@ const Forms = () => {
                 name='message'
                 label='Message' 
                 variant='outlined'
+                required
                 onChange={inputChangeHandler}/>
             </Grid>
             <Grid item className={classes.browse}>
@@ -99,9 +114,11 @@ const Forms = () => {
 
                 <TextField 
                 disabled 
-                value={message.image}
+                value={message.image.name}
+                InputLabelProps={{ shrink: true }}
                 variant='outlined'
-                label='Image'/>
+                label='Image Name'
+                onClick={inputClick}/>
             </Grid>
             <Button variant='outlined' 
             color='secondary' 

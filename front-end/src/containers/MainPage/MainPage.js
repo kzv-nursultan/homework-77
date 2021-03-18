@@ -1,11 +1,10 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import makeStyles from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Forms from '../Forms/Forms';
 
 const useStyles = makeStyles({
  fromBlock:{
-     width:'100%',
      position:'fixed',
      zIndex: '500'
  }
