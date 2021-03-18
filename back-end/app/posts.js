@@ -31,7 +31,6 @@ router.post('/', upload.single('image'), (req,res)=>{
             item.author = "Anonymous";
         };
         if(item.image !=='[object Object]'){
-            console.log(item.image);
             item.image = req.file.filename;
         };
         fileDb.addItem(item);

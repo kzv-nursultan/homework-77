@@ -8,7 +8,8 @@ const useStyles = makeStyles({
     width:'100%'
   },
   gridItem:{
-    backgroundColor:'grey'
+    width:'95%',
+    margin:'0 auto'
   }
 });
 
@@ -18,7 +19,7 @@ function App() {
 
   return (
     <Grid container justify="center" className={classes.main}>
-      <Grid item>
+      <Grid item className={classes.gridItem}>
         <MainPage/>
       </Grid>
     </Grid>

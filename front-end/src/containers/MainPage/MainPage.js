@@ -11,8 +11,8 @@ const useStyles = makeStyles({
      width:'100%',
  },
  postsBlock: {
-     margin:'10px auto 40px',
-     maxWidth:'95%',
+     margin:'10px 0 40px',
+     maxWidth:'100%',
      textAlign:'center'   
  }
 });
@@ -40,7 +40,7 @@ const MainPage = () => {
     );
 
     return (
-        <Grid container xl direction='column'> 
+        <Grid container direction='column'> 
             <Grid item className={classes.postsBlock}>
                 {list}
             </Grid> 
